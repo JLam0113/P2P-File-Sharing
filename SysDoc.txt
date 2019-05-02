@@ -1,0 +1,56 @@
+CPS 706 Final Project System Documentation:
+
+=====================
+System Overview
+=====================
+
+The application provided is meant to be a standalone P2P file sharing service. In this service,
+files are available to any users connected to the network. In order to connect to the network, one
+must know the IP of one of the DHT servers (Distributed HashTables).
+
+After doing so, the user then inputs their shares folder. The idea is that the contents of this
+folder will be part of the "Community Pool" of files, however, a user may decide to run in receive-
+only mode.
+
+=====================
+Data Structures
+=====================
+
+The more important data structures are kept on the DHT Servers. In order to organize the existence
+of files on connected peers, the record is kept in a data class: ContentRecord. Once hashed, these
+records are held in a ConcurrentHashMap, allowing the updating of ContentRecords in real time, as
+the reading and writing on separate threads are handled by the Built-in Collection's Concurrency
+handling.
+
+=====================
+Design Choices
+=====================
+
+This software collection was made with the intention of being distributed as a whole. This is done
+for a variety of reasons:
+    a) Further distribution and redundancy for the DHT network.
+    b) Distribution and versioning simplification.
+    c) Code Sharing
+
+However, at this time, the DHT program is separate from the P2P App, for the purpose of this
+assignment. For this reason, some of the more commonly used functions and values are kept in the
+Utils class to allow for consistency among applications in the suite.
+
+To facilitate concurrency development and testing, care is taken to make each thread a full subclass
+of the thread class, maintaining minimum access between threads and utilizing dependency injection
+to minimize the possibility of cross-thread manipulation of data.
+
+=====================
+Important algorithms
+=====================
+
+a) DServer.SendInitMessage()
+    This method allows for successive traversal of the DHT ring in an ordered fashion, concluding
+    with a response to the requester.
+
+b) DTCPThread.run()
+    A complement to the above method.
+
+c) P2PClient.getFile() and P2PServer.run()
+    Our own implementation of an HTTP protocol for file transfer. Minimal and quaint, but it gave us
+    a good idea of the difficulties in parsing protocols and respect for following standards.

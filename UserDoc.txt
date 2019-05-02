@@ -1,0 +1,75 @@
+CPS 706 Final Project User Documentation:
+
+=====================
+System Requirements
+=====================
+
+- Java 1.8
+- Network Capability
+- Ports 20720 and 20721 enabled and available on tcp and udp.
+
+=====================
+Demo Requirements
+=====================
+
+The Application assumes that there will be at
+least four computers available on a local LAN. Servers must be initialized on each computer before
+clients can connect. After which, any number of clients can perform transactions using these DHT
+servers.
+
+Therefore, demo should be carried out in the following manner:
+
+4 x DHT Setup
+N x Peer Setup
+
+=====================
+DHT Setup
+=====================
+
+Run the DServer.java file.
+
+Follow the directions on-screen to:
+
+    -Select Server ID (1-4)
+        This number will be used to identify the Server within the ring and provide it with the
+        appropriately hashed file
+    -Input successor Server
+        Entering the ip of the next server in the DHT ring
+
+After doing this, the server is now set up and waiting for connections from the clients. To close
+the server, a SIGINT may be sent.
+
+
+=====================
+P2PApp Usage.
+=====================
+
+Run P2PApp.jar using the following command:
+
+    java -jar P2PApp.jar;
+
+Follow the directions on-screen to setup the app:
+
+    -Setup DHT node to contact.
+        This is the entry point of this client to the network. You must input the adress of one of
+        the previously set up DHTservers.
+
+    -Select shares directory.
+        This is the folder where the files that you download will be saved. The contents of this
+        folder are shared publicly with other users unless receive only mode is set in the next
+        option.  Set it using either a relative or absolute path.
+
+    -Decide whether to broadcast files.
+        If files are broadcasted, contents of the shares directory will be available to other
+        members of the network.
+
+Once setup, the app allows you to perform three actions:
+
+    a)  Update: You can update the dht to inform other users that you have just added a file to your
+        shares directory. Keep in mind that files were automatically added at setup time.
+
+    b)  Query: checks other connected peers in order to download the file selected. After the file
+        is downloaded, it is placed in your shares directory.
+
+    c)  Exit: Exits the program gracefully, by dissolving this client of the responsibility of
+        responding to any more requests of files previously held, but now gone.
